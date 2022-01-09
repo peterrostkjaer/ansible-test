@@ -1,3 +1,4 @@
-192.168.0.41
-192.168.0.42
-192.168.0.43
+192.168.0.41 apache_package=apache2 php_package=libapache2-mod-php
+192.168.0.42 apache_package=apache2 php_package=libapache2-mod-php
+192.168.0.43 apache_package=apache2 php_package=libapache2-mod-php
+192.168.0.44 apache_package=httpd php_package=php
