@@ -5,18 +5,21 @@
   pre_tasks:
 
   - name: install updates (CentOS)
+    tags: always
     dnf:
       update_only: yes
       update_cache: yes
     when: ansible_distribution == "CentOS"
 
   - name: Install Updates (Ubuntu)
+    tags: always
     apt:
       upgrade: dist
       update_cache: yes
     when: ansible_distribution == "Ubuntu"
 
   - name: Install Net-Tools (Ubuntu)
+    tags: net-tools
     apt:
       name:
         - net-tools
@@ -30,6 +33,7 @@
   tasks:
 
   - name: Install Apache2 and PHP for Ubuntu-Servers
+    tags: ubuntu,apache2,php
     apt:
       name:
         - apache2
@@ -38,6 +42,7 @@
     when: ansible_distribution == "Ubuntu"
 
   - name: Install Apache2 and PHP for CentOS-Servers
+    tags: centos,apache2,php
     dnf:
       name:
         - httpd
@@ -52,12 +57,14 @@
   tasks:
 
   - name: Install MariaDB Package (CentOS)
+    tags: centos,mariadb,db
     dnf:
       name: mariadb
-      state: katest
+      state: latest
     when: ansible_distribution == "CentOS"
 
   - name: Install MariaDB Package (Ubuntu)
+    tags: ubuntu,mariadb,db
     apt:
       name: mariadb-server
       state: latest
@@ -69,6 +76,7 @@
   tasks:
 
   - name: Install Samba Package
+    tags: samba
     package:
       name: samba
       state: latest
