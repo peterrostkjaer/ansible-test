@@ -28,6 +28,9 @@
 
 
 
+
+
+
 - hosts: web_servers
   become: true
   tasks:
@@ -50,6 +53,20 @@
       state: latest
     when: ansible_distribution == "CentOS"
 
+  - name: Copy default-HTML file to web-server
+    tags: apache2,httpd
+    copy:
+      src: default_site.html
+      dest: /var/www/html/index.html
+      owner: root
+      group: root
+      mode: 0644
+
+
+
+
+
+
 
 
 - hosts: db_servers
@@ -69,6 +86,13 @@
       name: mariadb-server
       state: latest
     when: ansible_distribution == "Ubuntu"
+
+
+
+
+
+
+
 
 
 - hosts: file_servers
