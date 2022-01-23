@@ -1,0 +1,52 @@
+---
+
+- hosts: all
+  become: true
+  pre_tasks:
+
+  - name: install updates (CentOS)
+    tags: always
+    dnf:
+      update_only: yes
+      update_cache: yes
+    when: ansible_distribution == "CentOS"
+
+  - name: Install Updates (Ubuntu)
+    tags: always
+    apt:
+      upgrade: dist
+      update_cache: yes
+    when: ansible_distribution == "Ubuntu"
+
+  - name: Install Net-Tools (Ubuntu)
+    tags: net-tools
+    apt:
+      name:
+        - net-tools
+    when: ansible_distribution == "Ubuntu"
+
+
+- hosts: all
+  become: true
+  tasks:
+
+  - name: Create user Simone
+    tags: always
+    user:
+      name: simone
+      group: root
+
+  - name: Add SSH-key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPswT5dQP/mfKLzN5p8apjv/3+iSQb52tU1QTowxy7rz ansible key"
+ 
+  - name: Add Sudoers file for Simone
+    tags: always
+    copy:
+      src: sudoer_simone
+      dest: /etc/sudoers.d/simone
+      owner: root
+      group: root
+      mode: 0440
