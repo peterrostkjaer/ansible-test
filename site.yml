@@ -4,18 +4,18 @@
   become: true
   pre_tasks:
 
-  - name: install updates (CentOS)
+  - name: Update Repo Cache (CentOS)
     tags: always
     dnf:
-      update_only: yes
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "CentOS"
 
-  - name: Install Updates (Ubuntu)
+  - name: Update Repo Cache (Ubuntu)
     tags: always
     apt:
-      upgrade: dist
       update_cache: yes
+    changed_when: false
     when: ansible_distribution == "Ubuntu"
 
   - name: Install Net-Tools (Ubuntu)
@@ -26,7 +26,16 @@
     when: ansible_distribution == "Ubuntu"
 
 
+- hosts: all
+  become: true
+  tasks:
 
+  - name: Add SSH-key for simone
+    tags: always
+    authorized_key:
+      user: simone
+      key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPswT5dQP/mfKLzN5p8apjv/3+iSQb52tU1QTowxy7rz ansible key"
+ 
 
 - hosts: workstations
   become: true
@@ -44,8 +53,6 @@
       mode: 0755
       owner: root
       group: root
-    
-
 
 
 
