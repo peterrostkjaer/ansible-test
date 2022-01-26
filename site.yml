@@ -2,25 +2,6 @@
 
 - hosts: all
   become: true
-  pre_tasks:
-
-  - name: Update Repo Cache (CentOS)
-    tags: always
-    dnf:
-      update_cache: yes
-    changed_when: false
-    when: ansible_distribution == "CentOS"
-
-  - name: Update Repo Cache (Ubuntu)
-    tags: always
-    apt:
-      update_cache: yes
-    changed_when: false
-    when: ansible_distribution == "Ubuntu"
-
-
-- hosts: base
-  become: true
   roles:
     - base
 
